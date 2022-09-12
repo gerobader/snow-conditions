@@ -29,47 +29,22 @@ const getSnowData = () => new Promise((resolve, reject) => {
   });
 });
 
-cron.schedule('0 0 * * *', () => {
+const saveInDatabase = (resortData) => {
   const updateTime = new Date();
-  console.log('Cron Job getting Snow Data at', updateTime);
-  getSnowData().then(
-    (resortData) => {
-      resortData.forEach((resort) => {
-        Resort.find({country: 'Austria', name: resort.name}, (err, existingResort) => {
-          if (err) {
-            console.error('error while finding resort');
-            console.log(err);
-            return;
-          }
-          if (existingResort.length) {
-            Resort.findOneAndUpdate(
-              {_id: existingResort[0]._id},
+  resortData.forEach((resort) => {
+    Resort.find({country: 'Austria', name: resort.name}, (err, existingResort) => {
+      if (err) {
+        console.error('error while finding resort');
+        console.log(err);
+        return;
+      }
+      if (existingResort.length) {
+        Resort.findOneAndUpdate(
+          {_id: existingResort[0]._id},
+          {
+            $push:
               {
-                $push:
-                  {
-                    conditions: {
-                      valley: resort.valley_snow_depth,
-                      mountain: resort.mountain_snow_depth,
-                      new_snow: resort.new_snow,
-                      open_lifts: resort.open_lifts,
-                      time: new Date(resort.time),
-                      time_updated: updateTime
-                    }
-                  }
-              },
-              (error) => {
-                if (error) {
-                  console.error('Error while updating existing resort condition data');
-                  console.log(error);
-                }
-              }
-            );
-          } else {
-            const newResort = new Resort({
-              name: resort.name,
-              country: 'Austria',
-              conditions: [
-                {
+                conditions: {
                   valley: resort.valley_snow_depth,
                   mountain: resort.mountain_snow_depth,
                   new_snow: resort.new_snow,
@@ -77,18 +52,45 @@ cron.schedule('0 0 * * *', () => {
                   time: new Date(resort.time),
                   time_updated: updateTime
                 }
-              ]
-            });
-            newResort.save((error) => {
-              if (error) {
-                console.error('Error while saving a resort!');
-                console.log(err);
               }
-            });
+          },
+          (error) => {
+            if (error) {
+              console.error('Error while updating existing resort condition data');
+              console.log(error);
+            }
+          }
+        );
+      } else {
+        const newResort = new Resort({
+          name: resort.name,
+          country: 'Austria',
+          conditions: [
+            {
+              valley: resort.valley_snow_depth,
+              mountain: resort.mountain_snow_depth,
+              new_snow: resort.new_snow,
+              open_lifts: resort.open_lifts,
+              time: new Date(resort.time),
+              time_updated: updateTime
+            }
+          ]
+        });
+        newResort.save((error) => {
+          if (error) {
+            console.error('Error while saving a resort!');
+            console.log(err);
           }
         });
-      });
-    },
+      }
+    });
+  });
+};
+
+cron.schedule('0 0 * * *', () => {
+  console.log('Cron Job getting Snow Data at', new Date());
+  getSnowData().then(
+    (resortData) => saveInDatabase(resortData),
     (error) => {
       console.error('There was an error scraping the website');
       console.log(error);
@@ -119,8 +121,16 @@ app.get('/run-crawler', (req, res) => {
   );
 });
 
-app.get('/page-test', (req, res) => {
+app.get('/database-test', (req, res) => {
   res.sendFile(`${__dirname}/public/index.html`);
+  getSnowData().then(
+    (resortData) => saveInDatabase(resortData),
+    (error) => {
+      console.error('There was an error scraping the website');
+      console.log(error);
+    }
+  );
+  res.send('Test Page :)');
 });
 
 app.listen(process.env.PORT || 5000, () => {
