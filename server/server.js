@@ -108,6 +108,17 @@ app.get('/express-backend', (req, res) => {
   });
 });
 
+app.get('/run-crawler', (req, res) => {
+  getSnowData().then(
+    (resortData) => {
+      res.send({success: true, data: resortData});
+    },
+    (error) => {
+      res.send({success: false, message: 'Error retrieving resort data', data: error});
+    }
+  );
+});
+
 app.get('/page-test', (req, res) => {
   res.sendFile(`${__dirname}/public/index.html`);
 });
