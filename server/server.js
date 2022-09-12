@@ -3,12 +3,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cron = require('node-cron');
 const {PythonShell} = require('python-shell');
+require('dotenv').config();
 
 const app = express();
 app.use(express.json());
 app.use(express.static('public'));
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/snowConditions');
+mongoose.connect(process.env.MONGODB_URI);
 
 const resortSchema = {name: String, country: String, conditions: Array};
 const Resort = mongoose.model('Resort', resortSchema);
