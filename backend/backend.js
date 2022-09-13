@@ -7,7 +7,6 @@ require('dotenv').config();
 
 const app = express();
 app.use(express.json());
-app.use(express.static('public'));
 
 mongoose.connect(process.env.MONGODB_URI);
 
@@ -101,12 +100,7 @@ cron.schedule('0 0 * * *', () => {
   );
 });
 
-app.get('/', (req, res) => {
-  console.log('website visit detected');
-  res.send('all good fam');
-});
-
-app.get('/express-backend', (req, res) => {
+app.get('/austria-resorts', (req, res) => {
   Resort.find({country: 'Austria'}, (err, result) => {
     if (err) {
       console.error('Error retrieving resort data');

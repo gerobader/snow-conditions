@@ -75,7 +75,7 @@ function Root() {
   const [skiResorts, setSkiResorts] = useState<SkiResort[]>([]);
   const [selectedResortId, setSelectedResortId] = useState('');
   useEffect(() => {
-    fetch('/express-backend')
+    fetch('/austria-resorts')
       .then((res) => res.json())
       .then((response) => {
         if (response.success) {
