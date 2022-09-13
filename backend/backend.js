@@ -1,12 +1,16 @@
 /* eslint-disable no-underscore-dangle */
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const cron = require('node-cron');
 const {PythonShell} = require('python-shell');
 require('dotenv').config();
 
 const app = express();
 app.use(express.json());
+app.use(cors({
+  origin: 'http://gerobader.com'
+}));
 
 mongoose.connect(process.env.MONGODB_URI);
 
