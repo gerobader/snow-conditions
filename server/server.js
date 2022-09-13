@@ -88,7 +88,10 @@ const saveInDatabase = (resortData) => {
 };
 
 cron.schedule('0 0 * * *', () => {
-  console.log('Cron Job getting Snow Data at', new Date());
+  const date = new Date();
+  const currentMonth = date.getMonth() + 1;
+  if (currentMonth < 10 && currentMonth > 4) return; // don't crawl from May to September
+  console.log('Cron Job getting Snow Data at', date);
   getSnowData().then(
     (resortData) => saveInDatabase(resortData),
     (error) => {
@@ -96,10 +99,6 @@ cron.schedule('0 0 * * *', () => {
       console.log(error);
     }
   );
-});
-
-cron.schedule('* * * * *', () => {
-  console.log('Cron Job executed', new Date());
 });
 
 app.get('/', (req, res) => {
