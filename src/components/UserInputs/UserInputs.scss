@@ -1,0 +1,15 @@
+.user-inputs{
+  width: 259px;
+  max-width: 259px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  .input-wrapper{
+    margin-right: 5px;
+  }
+  .connector{
+    width: 15px;
+    height: 45px;
+    background: url('../../assets/big-arrow-right.svg') center no-repeat;
+  }
+}

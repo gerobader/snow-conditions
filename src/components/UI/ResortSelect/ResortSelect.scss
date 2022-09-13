@@ -1,0 +1,58 @@
+.resort-select{
+  width: 232px;
+  height: 420px;
+  border: 1px solid #fff;
+  border-radius: 10px;
+  padding: 10px 10px 0 10px;
+  box-sizing: border-box;
+  color: #fff;
+  overflow: hidden;
+  position: relative;
+  .search-field{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 212px;
+    z-index: 2;
+  }
+  .fade-out{
+    position: absolute;
+    height: 50px;
+    min-height: 50px;
+    pointer-events: none;
+    width: 232px;
+    z-index: 1;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.1s ease-in-out;
+    &.show{
+      opacity: 1;
+    }
+    &.top{
+      top: 25px;
+      background: linear-gradient(180deg, rgba(47,47,47,1) 0%,  rgba(47,47,47,0) 100%);
+    }
+    &.bottom{
+      bottom: 0;
+      background: linear-gradient(180deg, rgba(47,47,47,0) 0%,  rgba(47,47,47,1) 100%);
+    }
+  }
+  .resort-wrapper{
+    margin-top: 25px;
+    height: 385px;
+    overflow-y: scroll;
+    position: relative;
+    .resort{
+      cursor: pointer;
+      padding: 5px 0;
+      &:last-child{
+        padding-bottom: 15px;
+      }
+    }
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}

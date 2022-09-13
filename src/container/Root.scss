@@ -5,6 +5,12 @@ body{
   sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #2F2F2F;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
 }
 
 code {
@@ -12,8 +18,21 @@ code {
   monospace;
 }
 
-
 .page-content-container{
+  width: 100vw;
+  max-width: 1400px;
+  padding: 0 100px;
+  box-sizing: border-box;
+  .content-wrapper{
+    display: flex;
+    flex-direction: row;
+    .inputs{
+      width: 259px;
+    }
+    .graph{
+      width: calc(100% - 259px);
+    }
+  }
   table{
     th, td{
       padding: 0 10px;
