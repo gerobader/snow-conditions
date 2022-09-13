@@ -98,6 +98,10 @@ cron.schedule('0 0 * * *', () => {
   );
 });
 
+cron.schedule('* * * * *', () => {
+  console.log('Cron Job executed', new Date());
+});
+
 app.get('/', (req, res) => {
   console.log('website visit detected');
   res.send('all good fam');
@@ -138,6 +142,6 @@ app.get('/database-test', (req, res) => {
   res.send('Test Page :)');
 });
 
-app.listen(process.env.PORT || 5000, () => {
-  console.log('Server has started on port', process.env.PORT || 5000);
+app.listen(process.env.PORT, () => {
+  console.log('Server has started on port', process.env.PORT);
 });
