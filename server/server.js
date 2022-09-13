@@ -98,6 +98,11 @@ cron.schedule('0 0 * * *', () => {
   );
 });
 
+app.get('/', (req, res) => {
+  console.log('website visit detected');
+  res.send('all good fam');
+});
+
 app.get('/express-backend', (req, res) => {
   Resort.find({country: 'Austria'}, (err, result) => {
     if (err) {
